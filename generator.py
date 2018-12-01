@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.python.ops import tensor_array_ops, control_flow_ops
-
+import cPickle
 
 class Generator(object):
     def __init__(self, num_emb, batch_size, emb_dim, hidden_dim,
@@ -22,7 +22,17 @@ class Generator(object):
         self.expected_reward = tf.Variable(tf.zeros([self.sequence_length]))
 
         with tf.variable_scope('generator'):
-            self.g_embeddings = tf.Variable(self.init_matrix([self.num_emb, self.emb_dim]))
+            
+            ######################### 임베딩 수정 #############################
+            with open('save/input/embedding_kyu.pkl', 'rb') as fp:
+                embedding_matrix_kudl = cPickle.load(fp)                    
+
+            self.g_embeddings = tf.get_variable(name = "Word_embedding",
+                             shape = [self.num_emb, self.emb_dim],
+                             initializer=tf.constant_initializer(np.array(embedding_matrix_kudl)),
+                             trainable = False)
+
+            ###################################################################
             self.g_params.append(self.g_embeddings)
             self.g_recurrent_unit = self.create_recurrent_unit(self.g_params)  # maps h_tm1 to h_t for generator
             self.g_output_unit = self.create_output_unit(self.g_params)  # maps h_t to o_t (output token logits)

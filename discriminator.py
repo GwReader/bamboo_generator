@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+import cPickle
 
 # An alternative to tf.nn.rnn_cell._linear function, which has been removed in Tensorfow 1.0.1
 # The highway layer is borrowed from https://github.com/mkroutikov/tf-lstm-char-cnn
@@ -70,9 +71,17 @@ class Discriminator(object):
 
             # Embedding layer
             with tf.device('/gpu:0'), tf.name_scope("embedding"):
-                self.W = tf.Variable(
-                    tf.random_uniform([vocab_size, embedding_size], -1.0, 1.0),
-                    name="W")
+                
+                ######################### 임베딩 수정 #############################
+                with open('save/input/embedding_kyu.pkl', 'rb') as fp:
+                    embedding_matrix_kudl = cPickle.load(fp)                    
+
+                self.W = tf.get_variable(name = "Word_embedding",
+                                         shape = [vocab_size, embedding_size],
+                                         initializer=tf.constant_initializer(np.array(embedding_matrix_kudl)),
+                                         trainable = False)
+
+                ###################################################################
                 self.embedded_chars = tf.nn.embedding_lookup(self.W, self.input_x)
                 self.embedded_chars_expanded = tf.expand_dims(self.embedded_chars, -1)
 
