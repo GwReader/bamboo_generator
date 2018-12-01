@@ -72,7 +72,7 @@ class Discriminator(object):
             # Embedding layer
             with tf.device('/gpu:0'), tf.name_scope("embedding"):
                 
-                ######################### 임베딩 수정 #############################
+                ######################### modify embedding #############################
                 with open('save/input/embedding_kyu.pkl', 'rb') as fp:
                     embedding_matrix_kudl = cPickle.load(fp)                    
 

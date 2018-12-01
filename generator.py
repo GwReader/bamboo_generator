@@ -23,7 +23,7 @@ class Generator(object):
 
         with tf.variable_scope('generator'):
             
-            ######################### 임베딩 수정 #############################
+            ######################### modify embedding #########################
             with open('save/input/embedding_kyu.pkl', 'rb') as fp:
                 embedding_matrix_kudl = cPickle.load(fp)                    
 
