@@ -73,7 +73,7 @@ class Discriminator(object):
             with tf.device('/gpu:0'), tf.name_scope("embedding"):
                 
                 ######################### modify embedding #############################
-                with open('save/input/embedding_kyu.pkl', 'rb') as fp:
+                with open('save/input/embedding_moon.pkl', 'rb') as fp:
                     embedding_matrix_kudl = cPickle.load(fp)                    
 
                 self.W = tf.get_variable(name = "Word_embedding",
