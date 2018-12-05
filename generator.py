@@ -22,7 +22,7 @@ class Generator(object):
 
         self.expected_reward = tf.Variable(tf.zeros([self.sequence_length]))
 
-        with tf.variable_scope('generator'):
+        with tf.variable_scope('generator', reuse = tf.AUTO_REUSE):
             
             ######################### modify embedding #########################
             with open('save/input/embedding_kyu.pkl', 'rb') as fp:
